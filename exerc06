@@ -1,0 +1,71 @@
+-- Criação do Banco de Dados
+CREATE DATABASE db_curso_da_minha_vida;
+USE db_curso_da_minha_vida;
+
+-- =========================================================
+-- Tabela: tb_categorias
+-- =========================================================
+CREATE TABLE tb_categorias (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    area VARCHAR(255) NOT NULL
+);
+
+-- Inserts: tb_categorias
+INSERT INTO tb_categorias (nome, area) VALUES
+("Programação", "Tecnologia"),
+("Design", "Criação"),
+("Marketing Digital", "Negócios"),
+("Saúde", "Ciências Humanas"),
+("Idiomas", "Educação");
+
+-- =========================================================
+-- Tabela: tb_cursos
+-- =========================================================
+CREATE TABLE tb_cursos (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(500),
+    carga_horaria INT NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
+    categoria_id BIGINT,
+    FOREIGN KEY (categoria_id) REFERENCES tb_categorias(id)
+);
+
+-- Inserts: tb_cursos
+INSERT INTO tb_cursos (nome, descricao, carga_horaria, preco, categoria_id) VALUES
+("Java Fundamentos", "Curso introdutório de Java", 40, 650.00, 1),
+("JavaScript Completo", "Curso de JS do básico ao avançado", 60, 800.00, 1),
+("Design Gráfico Essencial", "Photoshop, Illustrator e composição", 50, 450.00, 2),
+("UX/UI Design", "Design de interfaces e experiência do usuário", 70, 950.00, 2),
+("Marketing para Instagram", "Estratégias e conteúdo", 30, 300.00, 3),
+("Copywriting Estratégico", "Escrita persuasiva", 25, 520.00, 3),
+("Primeiros Socorros", "Curso básico de atendimento emergencial", 20, 200.00, 4),
+("Inglês Intermediário", "Curso de inglês nível B1", 80, 1200.00, 5);
+
+-- =========================================================
+-- SELECTS DO EXERCÍCIO
+-- =========================================================
+
+-- 1) Cursos com valor maior que R$ 500,00
+SELECT * FROM tb_cursos
+WHERE preco > 500.00;
+
+-- 2) Cursos com valor entre R$ 600,00 e R$ 1000,00
+SELECT * FROM tb_cursos
+WHERE preco BETWEEN 600.00 AND 1000.00;
+
+-- 3) Cursos que possuem a letra J no nome
+SELECT * FROM tb_cursos
+WHERE nome LIKE '%J%';
+
+-- 4) INNER JOIN cursos + categorias
+SELECT c.id, c.nome, c.descricao, c.preco, cat.nome AS categoria, cat.area
+FROM tb_cursos c
+INNER JOIN tb_categorias cat ON c.categoria_id = cat.id;
+
+-- 5) INNER JOIN filtrando por categoria específica (Exemplo: Programação)
+SELECT c.id, c.nome, c.preco, cat.nome AS categoria
+FROM tb_cursos c
+INNER JOIN tb_categorias cat ON c.categoria_id = cat.id
+WHERE cat.nome = "Programação";
