@@ -1,0 +1,35 @@
+CREATE DATABASE IF NOT EXISTS db_farmacia;
+USE db_farmacia;
+
+CREATE TABLE IF NOT EXISTS tb_produtos (
+    id BIGINT AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255),
+    preco DECIMAL(10,2) NOT NULL,
+    categoria VARCHAR(255) NOT NULL,
+    estoque INT NOT NULL,
+    PRIMARY KEY (id)
+);
+INSERT INTO tb_produtos (nome, descricao, preco, categoria, estoque) VALUES
+("Dipirona", "Analgésico 500mg", 8.50, "Medicamento", 120),
+("Ibuprofeno", "Anti-inflamatório 400mg", 15.90, "Medicamento", 80),
+("Sabonete Dove", "Sabonete hidratante", 5.40, "Higiene", 200),
+("Protetor Solar FPS 50", "Dermocosmético facial", 49.90, "Dermocosmético", 50),
+("Shampoo Clearman", "Anticaspa", 17.30, "Higiene", 90),
+("Vitamina C", "Suplemento 500mg", 29.90, "Suplemento", 70),
+("Fralda Pampers", "Pacote com 40 unidades", 39.90, "Infantil", 35),
+("Álcool 70%", "Antisséptico", 6.80, "Higiene", 150);
+
+SELECT * FROM tb_produtos;
+
+SELECT * FROM tb_produtos
+WHERE preco > 20;
+
+SELECT * FROM tb_produtos
+WHERE preco BETWEEN 5 AND 15;
+
+SELECT * FROM tb_produtos
+WHERE categoria = "Dermocosmético";
+
+SELECT * FROM tb_produtos
+WHERE estoque < 50;
