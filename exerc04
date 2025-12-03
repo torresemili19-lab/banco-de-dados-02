@@ -1,0 +1,55 @@
+CREATE DATABASE db_cidade_dos_vegetais;
+USE db_cidade_dos_vegetais;
+
+CREATE TABLE tb_categorias (
+    id BIGINT AUTO_INCREMENT,
+    tipo VARCHAR(50) NOT NULL,
+    setor VARCHAR(50),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE tb_produtos (
+    id BIGINT AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    descricao VARCHAR(255),
+    preco DECIMAL(10,2) NOT NULL,
+    estoque INT NOT NULL,
+    categoria_id BIGINT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (categoria_id) REFERENCES tb_categorias(id)
+);
+
+INSERT INTO tb_categorias (tipo, setor) VALUES 
+("Frutas", "Hortifruti"),
+("Verduras", "Hortifruti"),
+("Legumes", "Hortifruti"),
+("Grãos", "Secos"),
+("Orgânicos", "Premium");
+
+INSERT INTO tb_produtos (nome, descricao, preco, estoque, categoria_id) VALUES
+("Maçã Fuji", "Maçãs selecionadas", 12.90, 150, 1),
+("Banana Prata", "Cacho de bananas frescas", 7.50, 200, 1),
+("Alface Crespa", "Alface fresca do dia", 4.99, 80, 2),
+("Brócolis Ninja", "Brócolis verde e fresco", 9.50, 60, 2),
+("Cenoura", "Cenouras selecionadas", 5.20, 100, 3),
+("Tomate Italiano", "Tomate para molho", 8.30, 90, 3),
+("Arroz Integral", "Pacote de 1kg", 14.90, 40, 4),
+("Morango Orgânico", "Caixa 250g", 19.90, 25, 5);
+
+SELECT * FROM tb_produtos
+WHERE preco > 50;
+
+SELECT * FROM tb_produtos
+WHERE preco BETWEEN 50 AND 150;
+
+SELECT * FROM tb_produtos
+WHERE nome LIKE "%C%";
+
+SELECT p.id, p.nome, p.preco, c.tipo AS categoria
+FROM tb_produtos p
+INNER JOIN tb_categorias c ON p.categoria_id = c.id;
+
+SELECT p.id, p.nome, p.preco, c.tipo AS categoria
+FROM tb_produtos p
+INNER JOIN tb_categorias c ON p.categoria_id = c.id
+WHERE c.tipo = "Frutas";
