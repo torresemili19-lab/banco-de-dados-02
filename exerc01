@@ -1,0 +1,64 @@
+-- ATIVIDADE 01 - GAMES ONLINE
+
+-- 1) Criar o banco
+CREATE DATABASE db_generation_game_online;
+USE db_generation_game_online;
+
+-- 2) Criar a tabela de classes
+CREATE TABLE tb_classes (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(30) NOT NULL,
+    tipo VARCHAR(30) NOT NULL
+);
+
+-- 3) Criar a tabela de personagens
+CREATE TABLE tb_personagens (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(40) NOT NULL,
+    poder_ataque INT NOT NULL,
+    poder_defesa INT NOT NULL,
+    nivel INT NOT NULL,
+    classe_id BIGINT,
+    FOREIGN KEY (classe_id) REFERENCES tb_classes(id)
+);
+-- 4) Inserir 5 classes
+INSERT INTO tb_classes (nome, tipo) VALUES
+("Arqueiro", "Distância"),
+("Guerreiro", "Corpo a corpo"),
+("Mago", "Magia"),
+("Assassino", "Furtividade"),
+("Paladino", "Sagrado");
+
+-- 5) Inserir 8 personagens
+INSERT INTO tb_personagens (nome, poder_ataque, poder_defesa, nivel, classe_id) VALUES
+("Lilith", 1800, 1200, 20, 1),
+("Smoke", 2500, 1800, 32, 2),
+("Luna", 3500, 900, 40, 3),
+("Shadow", 2700, 1100, 28, 4),
+("Banguela", 2200, 2000, 30, 5),
+("Caelum", 900, 800, 10, 1),
+("Sylvanas", 3100, 950, 35, 1),
+("Drakonio", 2800, 1700, 29, 2);
+
+-- 6) SELECT ataque > 2000
+SELECT * FROM tb_personagens
+WHERE poder_ataque > 2000;
+
+-- 7) SELECT defesa entre 1000 e 2000
+SELECT * FROM tb_personagens
+WHERE poder_defesa BETWEEN 1000 AND 2000;
+
+-- 8) SELECT LIKE (nome com C)
+SELECT * FROM tb_personagens
+WHERE nome LIKE "%C%";
+
+-- 9) INNER JOIN completo
+SELECT p.*, c.nome AS classe, c.tipo
+FROM tb_personagens p
+INNER JOIN tb_classes c ON c.id = p.classe_id;
+
+-- 10) INNER JOIN filtrando classe (ex: Arqueiro)
+SELECT p.*, c.nome AS classe
+FROM tb_personagens p
+INNER JOIN tb_classes c ON c.id = p.classe_id
+WHERE c.nome = "Arqueiro";
