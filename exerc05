@@ -1,0 +1,71 @@
+-- Criação do Banco de Dados
+CREATE DATABASE db_construindo_vidas;
+USE db_construindo_vidas;
+
+-- =========================================================
+-- Tabela: tb_categorias
+-- =========================================================
+CREATE TABLE tb_categorias (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    setor VARCHAR(255) NOT NULL
+);
+
+-- Inserts: tb_categorias
+INSERT INTO tb_categorias (nome, setor) VALUES
+("Hidráulica", "Construção"),
+("Elétrica", "Instalações"),
+("Ferramentas", "Equipamentos"),
+("Acabamento", "Decoração"),
+("Madeiras", "Estruturas");
+
+-- =========================================================
+-- Tabela: tb_produtos
+-- =========================================================
+CREATE TABLE tb_produtos (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(500),
+    preco DECIMAL(10,2) NOT NULL,
+    estoque INT NOT NULL,
+    categoria_id BIGINT,
+    FOREIGN KEY (categoria_id) REFERENCES tb_categorias(id)
+);
+
+-- Inserts: tb_produtos
+INSERT INTO tb_produtos (nome, descricao, preco, estoque, categoria_id) VALUES
+("Cano PVC 50mm", "Cano para instalações hidráulicas", 39.90, 200, 1),
+("Registro Hidráulico", "Registro metálico 1/2", 120.00, 50, 1),
+("Fio Elétrico 2,5mm", "Rolo com 100 metros", 180.00, 40, 2),
+("Interruptor Simples", "Interruptor branco 10A", 14.90, 300, 2),
+("Martelo", "Martelo de 500g cabo de madeira", 45.00, 80, 3),
+("Furadeira 500W", "Furadeira elétrica de impacto", 259.90, 20, 3),
+("Piso Cerâmico 60x60", "Caixa com 2 m²", 75.00, 100, 4),
+("Porta de Madeira", "Porta lisa de imbuia", 310.00, 10, 5);
+
+-- =========================================================
+-- SELECTS DO EXERCÍCIO
+-- =========================================================
+
+-- 1) Produtos com valor maior que R$ 100,00
+SELECT * FROM tb_produtos
+WHERE preco > 100.00;
+
+-- 2) Produtos com valor entre R$ 70,00 e R$ 150,00
+SELECT * FROM tb_produtos
+WHERE preco BETWEEN 70.00 AND 150.00;
+
+-- 3) Produtos que possuem a letra C no nome
+SELECT * FROM tb_produtos
+WHERE nome LIKE '%C%';
+
+-- 4) INNER JOIN produtos + categorias
+SELECT p.id, p.nome, p.descricao, p.preco, c.nome AS categoria, c.setor
+FROM tb_produtos p
+INNER JOIN tb_categorias c ON p.categoria_id = c.id;
+
+-- 5) INNER JOIN filtrando por categoria específica (ex.: Hidráulica)
+SELECT p.id, p.nome, p.preco, c.nome AS categoria
+FROM tb_produtos p
+INNER JOIN tb_categorias c ON p.categoria_id = c.id
+WHERE c.nome = "Hidráulica";
